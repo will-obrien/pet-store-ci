@@ -61,7 +61,7 @@ jobs:
     - name: Run Codescan On Push
       if: github.event_name == 'push'
       run: |
-        sfdx codescan:run --token $codescan_token --projectkey $codescan_project_key --organization $codescan_org 
+        sfdx codescan:run --token $codescan_token --projectkey=$codescan_project_key --organization=$codescan_org 
 
     - name: Run Codescan On PR
       if: github.event_name == 'pull_request'
@@ -70,5 +70,5 @@ jobs:
         target: ${{github.base_ref}}
         branch_type: SHORT 
       run: |
-        sfdx codescan:run --token $codescan_token --projectkey $codescan_project_key --organization $codescan_org -Dsonar.branch.name=$branch_name -Dsonar.branch.target=$target
+        sfdx codescan:run --token $codescan_token --projectkey=$codescan_project_key --organization=$codescan_org -Dsonar.branch.name=$branch_name -Dsonar.branch.target=$target
           
