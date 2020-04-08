@@ -27,11 +27,10 @@ jobs:
         SFDX_PROJECT_AUTOUPDATE_DISABLE_FOR_PACKAGE_CREATE: true
         SFDX_PROJECT_AUTOUPDATE_DISABLE_FOR_PACKAGE_VERSION_CREATE: true
       run: |
-        wget -q https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
-        mkdir sfdx
-        tar xJf sfdx-linux-amd64.tar.xz -C sfdx --strip-components 1
-        ./sfdx/install
-        export PATH=./sfdx/$(pwd):$PATH
+        mkdir /tmp/sfdx
+        wget -q https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz -O /tmp/sfdx/sfdx-linux-amd64.tar.xz
+        tar xJf /tmp/sfdx/sfdx-linux-amd64.tar.xz -C /tmp/sfdx/ --strip-components 1
+        /tmp/sfdx/install
  
         echo y|sfdx plugins:install sfdx-codescan-plugin
 
