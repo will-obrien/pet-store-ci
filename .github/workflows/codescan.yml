@@ -33,7 +33,8 @@ jobs:
         /tmp/sfdx/install
  
         echo y|sfdx plugins:install sfdx-codescan-plugin
-
+    
+    # Create a branch when a push triggers the build
     - name: Run Codescan On Push
       if: github.event_name == 'push'
       run: |
