@@ -15,7 +15,7 @@ jobs:
     env:  
       codescan_org: 'pet-store'
       codescan_project_key: 'ci-gh-test'
-      codescan_token: ${{ secrets.codescan_token }}
+      codescan_token: ${{ secrets.codescan_token2 }}
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-node@v1.1.0
