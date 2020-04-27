@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:  
-      codescan_org: 'pet-store'
+      codescan_org: 'pet-stor2e'
       codescan_project_key: 'ci-gh-test'
       codescan_token: ${{ secrets.codescan_token2 }}
     steps:
