@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:  
-      codescan_org: 'pet-stor2e'
+      codescan_org: 'pet-store'
       codescan_project_key: 'ci-gh-test'
       codescan_token: ${{ secrets.codescan_token2 }}
     steps:
@@ -33,7 +33,8 @@ jobs:
         /tmp/sfdx/install
  
         echo y|sfdx plugins:install sfdx-codescan-plugin
-
+    
+    # Create a branch when a push triggers the build
     - name: Run Codescan On Push
       if: github.event_name == 'push'
       run: |
