@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     env:  
       codescan_org: 'pet-store'
-      codescan_project_key: 'ci-integrations'
+      codescan_project_key: 'ci-gh-test'
       codescan_token: ${{ secrets.codescan_token }}
     steps:
     - uses: actions/checkout@v1
