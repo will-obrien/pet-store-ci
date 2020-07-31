@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - patcho
   pull_request:
     branches:
       - master
