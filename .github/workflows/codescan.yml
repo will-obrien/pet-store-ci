@@ -50,11 +50,12 @@ jobs:
         branch_type: SHORT 
       run: |
         echo "**********Branch shit*************"
-        branch_name=${GITHUB_REF_NAME##*/}
+        branch_name=${GITHUB_REF_NAME_SLUG##*/}
         echo $branch_name
         echo "***********************"
         echo ${{github.ref}}
         echo ${{github.ref.name}}
+        echo ${{github.ref.name.slug}}
         echo ${{github.base_ref}}
         echo ${{github.event.pull_request.title}}
         sfdx codescan:run --token=$codescan_token --projectkey=$codescan_project_key --organization=$codescan_org -Dsonar.branch.name=$branch_name -Dsonar.branch.target=$target -Dsonar.branch.type=$branch_type
