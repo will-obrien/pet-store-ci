@@ -42,6 +42,8 @@ jobs:
       if: github.event_name == 'push'
       run: |
         echo ${{github.ref}}
+        branch_name= ${GITHUB_REF##*/}
+        echo $branch_name
         sfdx codescan:run --token=$codescan_token --projectkey=$codescan_project_key --organization=$codescan_org -Dsonar.branch.name=$branch_name
 
     - name: Run Codescan On PR
