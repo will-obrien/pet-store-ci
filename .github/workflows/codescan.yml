@@ -47,14 +47,8 @@ jobs:
       if: github.event_name == 'pull_request'
       env:  
         target: ${{github.base_ref}}
+        branch_name: ${{github.head_ref}}
         branch_type: SHORT 
       run: |
-        echo "**********Branch shit*************"
-        branch_name=${GITHUB_REF_NAME_SLUG##*/}
-        echo $branch_name
-        echo "***********************"
-        echo ${{github.ref}}
-        echo ${{github.head_ref}}
-        echo ${{github.event.pull_request.title}}
         sfdx codescan:run --token=$codescan_token --projectkey=$codescan_project_key --organization=$codescan_org -Dsonar.branch.name=$branch_name -Dsonar.branch.target=$target -Dsonar.branch.type=$branch_type
           
