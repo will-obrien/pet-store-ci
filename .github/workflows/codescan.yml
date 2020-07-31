@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - patcho
   pull_request:
     branches:
       - master
@@ -37,6 +38,7 @@ jobs:
     - name: Run Codescan On Push
       if: github.event_name == 'push'
       run: |
+        echo ${{github.ref}}
         sfdx codescan:run --token=$codescan_token --projectkey=$codescan_project_key --organization=$codescan_org -Dsonar.branch.name=$branch_name
 
     - name: Run Codescan On PR
@@ -45,6 +47,6 @@ jobs:
         target: ${{github.base_ref}}
         branch_type: SHORT 
       run: |
-        branch_name=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+        echo ${{github.ref}}
         sfdx codescan:run --token=$codescan_token --projectkey=$codescan_project_key --organization=$codescan_org -Dsonar.branch.name=$branch_name -Dsonar.branch.target=$target -Dsonar.branch.type=$branch_type
           
