@@ -49,7 +49,6 @@ jobs:
         target: ${{github.base_ref}}
         branch_type: SHORT 
       run: |
-        branch_name=${GITHUB_REF##*/}
-        echo $branch_name
+        echo ${{github.ref}}
         sfdx codescan:run --token=$codescan_token --projectkey=$codescan_project_key --organization=$codescan_org -Dsonar.branch.name=$branch_name -Dsonar.branch.target=$target -Dsonar.branch.type=$branch_type
           
