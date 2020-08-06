@@ -37,16 +37,15 @@ jobs:
       if: github.event_name == 'push'
       run: |
         echo ${{github.ref}}
-        branch_name= ${GITHUB_REF##*/}
+        branch_name=${GITHUB_REF##*/}
         sfdx codescan:run --token=$codescan_token --projectkey=$codescan_project_key --organization=$codescan_org -Dsonar.branch.name=$branch_name
 
     - name: Run Codescan On PR
       if: github.event_name == 'pull_request'
       env:  
         target: ${{github.base_ref}}
+        branch_name: ${{github.head_ref}} 
         branch_type: SHORT
       run: |
-        echo ${{github.ref}}
-        branch_name= ${GITHUB_REF##*/}
         sfdx codescan:run --token=$codescan_token --projectkey=$codescan_project_key --organization=$codescan_org -Dsonar.branch.name=$branch_name -Dsonar.branch.target=$target -Dsonar.branch.type=$branch_type
           
