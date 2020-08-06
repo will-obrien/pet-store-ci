@@ -33,25 +33,20 @@ jobs:
  
         echo y|sfdx plugins:install sfdx-codescan-plugin
         
-    - name: Extract branch name
-      shell: bash
-      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-      id: extract_branch
-
     - name: Run Codescan On Push
       if: github.event_name == 'push'
       run: |
         echo ${{github.ref}}
         branch_name= ${GITHUB_REF##*/}
-        echo $branch_name
         sfdx codescan:run --token=$codescan_token --projectkey=$codescan_project_key --organization=$codescan_org -Dsonar.branch.name=$branch_name
 
     - name: Run Codescan On PR
       if: github.event_name == 'pull_request'
       env:  
         target: ${{github.base_ref}}
-        branch_type: SHORT 
+        branch_type: SHORT
       run: |
         echo ${{github.ref}}
+        branch_name= ${GITHUB_REF##*/}
         sfdx codescan:run --token=$codescan_token --projectkey=$codescan_project_key --organization=$codescan_org -Dsonar.branch.name=$branch_name -Dsonar.branch.target=$target -Dsonar.branch.type=$branch_type
           
