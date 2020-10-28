@@ -50,5 +50,5 @@ jobs:
         branch_name: ${{github.head_ref}}
         branch_type: SHORT 
       run: |
-        sfdx codescan:run --token=$codescan_token --projectkey=$codescan_project_key --organization=$codescan_org -Dsonar.branch.name=$branch_name -Dsonar.branch.target=$target -Dsonar.branch.type=$branch_type
+        sfdx codescan:run --token=$codescan_token --projectkey=$codescan_project_key --organization=442 -Dsonar.branch.name=$branch_name -Dsonar.branch.target=ben-org -Dsonar.branch.type=$branch_type
           
