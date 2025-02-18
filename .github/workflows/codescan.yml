@@ -18,6 +18,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-node@v1.1.0
+    - uses: gitleaks/gitleaks-action@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Install SFDX
       env:
         SFDX_AUTOUPDATE_DISABLE: false
@@ -48,4 +51,4 @@ jobs:
         branch_type: SHORT
       run: |
         sfdx codescan:run --token=$codescan_token --projectkey=$codescan_project_key --organization=$codescan_org -Dsonar.branch.name=$branch_name -Dsonar.branch.target=$target -Dsonar.branch.type=$branch_type
-          
+    
