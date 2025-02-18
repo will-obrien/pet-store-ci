@@ -17,7 +17,6 @@ jobs:
       codescan_token: ${{ secrets.codescan_token2 }}
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1.1.0
     - uses: gitleaks/gitleaks-action@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
