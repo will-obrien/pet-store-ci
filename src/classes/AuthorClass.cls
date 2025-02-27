@@ -1,1 +1,5 @@
-public class AuthorClass{}
+public class AuthorClass{
+
+//empty
+
+}
