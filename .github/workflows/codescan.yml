@@ -1,53 +1,51 @@
-name: CI
-
-on:
-  push:
-    branches:
-    - master
-  pull_request:
-    branches:
-      - master
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    env:  
-      codescan_org: 'pet-store'
-      codescan_project_key: 'ci-gh-test'
-      codescan_token: ${{ secrets.codescan_token2 }}
-    steps:
-    - uses: actions/checkout@v1
-    - uses: gitleaks/gitleaks-action@v2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Install SFDX
-      env:
-        SFDX_AUTOUPDATE_DISABLE: false
-        SFDX_USE_GENERIC_UNIX_KEYCHAIN: true
-        SFDX_DOMAIN_RETRY: 300
-        SFDX_PROJECT_AUTOUPDATE_DISABLE_FOR_PACKAGE_CREATE: true
-        SFDX_PROJECT_AUTOUPDATE_DISABLE_FOR_PACKAGE_VERSION_CREATE: true
-      run: |
-        mkdir /tmp/sfdx
-        wget -q https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz -O /tmp/sfdx/sfdx-linux-amd64.tar.xz
-        tar xJf /tmp/sfdx/sfdx-linux-amd64.tar.xz -C /tmp/sfdx/ --strip-components 1
-        /tmp/sfdx/install
- 
-        echo y|sfdx plugins:install sfdx-codescan-plugin
-        
-    - name: Run Codescan On Push
-      if: github.event_name == 'push'
-      run: |
-        echo ${{github.ref}}
-        branch_name=${GITHUB_REF##*/}
-        sfdx codescan:run --token=$codescan_token --projectkey=$codescan_project_key --organization=$codescan_org -Dsonar.branch.name=$branch_name
-
-    - name: Run Codescan On PR
-      if: github.event_name == 'pull_request'
-      env:  
-        target: ${{github.base_ref}}
-        branch_name: ${{github.head_ref}} 
-        branch_type: SHORT
-      run: |
-        sfdx codescan:run --token=$codescan_token --projectkey=$codescan_project_key --organization=$codescan_org -Dsonar.branch.name=$branch_name -Dsonar.branch.target=$target -Dsonar.branch.type=$branch_type
-    
+name: CI 
+on: 
+  push: 
+    branches: [main] 
+  pull_request: 
+    branches: [main] 
+jobs: 
+  build: 
+    runs-on: ubuntu-latest 
+    steps: 
+      - name: Checkout repository 
+        uses: actions/checkout@v4
+      - name: Cache files 
+        uses: actions/cache@v4
+        with: 
+            path: | 
+                ~/.sonar 
+            key: ${{ runner.os }}-sonar 
+            restore-keys: ${{ runner.os }}-sonar 
+      - name: Run Codescan On Push 
+        if: github.event_name == 'push' 
+        uses: codescan-io/codescan-scanner-action@1.6
+        with: 
+          organization: ajandwill
+          projectKey: author-check
+          login: ${{ secrets.codescan_token }} 
+          generateSarifFile: true 
+          failOnRedQualityGate: true 
+      - name: Run Codescan On PR 
+        if: github.event_name == 'pull_request' 
+        uses: codescan-io/codescan-scanner-action@1.6
+        with: 
+          organization: ajandwill
+          projectKey: author-check
+          login: ${{ secrets.codescan_token }} 
+          scanChangedFilesOnly: true 
+          generateSarifFile: true 
+          failOnRedQualityGate: true 
+          args: | 
+            sonar.pullrequest.branch=${{github.head_ref}} 
+            sonar.pullrequest.base=${{github.base_ref}} 
+            sonar.pullrequest.key=${{github.event.number}} 
+      - name: Upload SARIF file 
+        uses: github/codeql-action/upload-sarif@v3 
+        with: 
+          sarif_file: codescan.sarif 
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v4
+        with:
+          name: codescan.sarif
+          path: codescan.sarif  
