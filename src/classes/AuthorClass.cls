@@ -1,5 +1,4 @@
 public class AuthorClass{
 
-//empty
-
+public void newMethod(){}
 }
