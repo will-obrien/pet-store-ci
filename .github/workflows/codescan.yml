@@ -17,6 +17,8 @@ jobs:
                 ~/.sonar 
             key: ${{ runner.os }}-sonar 
             restore-keys: ${{ runner.os }}-sonar 
+      - name: What the heck files are here?
+        run: ls -a
       - name: Run Codescan On Push 
         if: github.event_name == 'push' 
         uses: codescan-io/codescan-scanner-action@1.6
