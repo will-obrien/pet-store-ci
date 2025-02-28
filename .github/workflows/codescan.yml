@@ -30,6 +30,7 @@ jobs:
           failOnRedQualityGate: true 
           args: |
             sonar.scm.provider=git
+            sonar.scm.disabled=false
       - name: Run Codescan On PR 
         if: github.event_name == 'pull_request' 
         uses: codescan-io/codescan-scanner-action@1.6
@@ -43,7 +44,9 @@ jobs:
           args: | 
             sonar.pullrequest.branch=${{github.head_ref}} 
             sonar.pullrequest.base=${{github.base_ref}} 
-            sonar.pullrequest.key=${{github.event.number}} 
+            sonar.pullrequest.key=${{github.event.number}}
+            sonar.scm.provider=git
+            sonar.scm.disabled=false
       - name: Upload SARIF file 
         uses: github/codeql-action/upload-sarif@v3 
         with: 
