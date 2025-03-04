@@ -15,10 +15,13 @@ public class NewClass {
   public boolean isBadExample(){ 
     return true; 
   } 
+  
+  private void badBadBad(Integer local){
+  }
 
   
   public void terribleCode(Integer param){
-    
+    param = 5;
   }
 
   public static void triggerBasicAuraHandledError() {
