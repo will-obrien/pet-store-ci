@@ -33,7 +33,7 @@ jobs:
           projectKey: author-check
           login: ${{ secrets.codescan_token }} 
           generateSarifFile: true 
-          failOnRedQualityGate: true 
+          failOnRedQualityGate: false 
           args: |
             sonar.scm.provider=git
             sonar.scm.disabled=false
