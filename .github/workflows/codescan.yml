@@ -37,6 +37,7 @@ jobs:
           args: |
             sonar.scm.provider=git
             sonar.scm.disabled=false
+            sonar.verbose=true
       - name: Run Codescan On PR 
         if: github.event_name == 'pull_request' 
         uses: codescan-io/codescan-scanner-action@1.6
