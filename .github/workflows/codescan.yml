@@ -32,12 +32,14 @@ jobs:
           organization: ajandwill
           projectKey: author-check
           login: ${{ secrets.codescan_token }} 
-          generateSarifFile: true 
+          generateSarifFile: false
+          generateReportFile: false          
           failOnRedQualityGate: false 
           args: |
             sonar.scm.provider=git
             sonar.scm.disabled=false
             sonar.verbose=true
+            sonar.analysisCache.enabled=false
       - name: Run Codescan On PR 
         if: github.event_name == 'pull_request' 
         uses: codescan-io/codescan-scanner-action@1.6
